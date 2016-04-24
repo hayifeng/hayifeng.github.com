@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html >
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   
@@ -10,11 +10,11 @@
     <meta name="author" content="wulian">
     
     <meta name="description" content="以前安装软件的时候也只是根据别人的安装说明老老实实的跟着修改一些文件来添加环境变量，但自己对那些文件并不了解，借此机会好好总结一下。
-查看环境变量的值1echo $PATH
+查看环境变量的值echo $PATH
 通过这条命令就可以查看当前环境变量PATH包含了哪些路径。
 ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 
-/e">
+/et">
     
     
     
@@ -39,9 +39,9 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="hayifeng">hayifeng</a></h1>
-				<h2 class="blog-motto"></h2>
+				<h2 class="blog-motto">路的尽头仍然是路，只要你愿意走</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -54,7 +54,7 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -78,7 +78,7 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
     </p>
   <p class="article-time">
     <time datetime="2016-04-23T16:36:19.000Z" itemprop="datePublished">2016-04-24</time>
-    Updated:<time datetime="2016-04-23T16:36:19.226Z" itemprop="dateModified">2016-04-24</time>
+    更新日期:<time datetime="2016-04-23T16:36:19.226Z" itemprop="dateModified">2016-04-24</time>
     
   </p>
 </header>
@@ -86,12 +86,12 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 		
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看环境变量的值"><span class="toc-number">1.</span> <span class="toc-text">查看环境变量的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ubuntu系统环境变量配置文件"><span class="toc-number">2.</span> <span class="toc-text">ubuntu系统环境变量配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PATH环境变量的设置方法"><span class="toc-number">3.</span> <span class="toc-text">PATH环境变量的设置方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考链接"><span class="toc-number">3.1.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
 		</div>
 		
 		<p>以前安装软件的时候也只是根据别人的安装说明老老实实的跟着修改一些文件来添加环境变量，但自己对那些文件并不了解，借此机会好好总结一下。</p>
-<h3 id="查看环境变量的值"><a href="#查看环境变量的值" class="headerlink" title="查看环境变量的值"></a>查看环境变量的值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看环境变量的值"><a href="#查看环境变量的值" class="headerlink" title="查看环境变量的值"></a>查看环境变量的值</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
 <p>通过这条命令就可以查看当前环境变量PATH包含了哪些路径。</p>
 <h3 id="ubuntu系统环境变量配置文件"><a href="#ubuntu系统环境变量配置文件" class="headerlink" title="ubuntu系统环境变量配置文件"></a>ubuntu系统环境变量配置文件</h3><p>以下文件都可以更改环境变量</p>
 <ul>
@@ -106,10 +106,10 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 <li><p><code>/etc/bash.bashrc</code><br>为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该文件被读取。只有root用户有写权限，其他用户只有读权限。</p>
 </li>
 </ul>
-<p><strong>注：</strong><br><code>/etc/profile</code>和<code>~/.profile</code>两个文件在系统登录的时候就会读取，此时并不会读取<code>/etc/bash.bashrc</code>和<code>~/.bashrc</code>，打开终端shell的时候就会读取<code>~/.bashrc</code>和<code>/etc/bash.bashrc</code>两个文件。<br>    一般来说修改完配置文件后，需要注销重启才生效，不过可以使用source命令立即生效。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></p>
+<p><strong>注：</strong><br><code>/etc/profile</code>和<code>~/.profile</code>两个文件在系统登录的时候就会读取，此时并不会读取<code>/etc/bash.bashrc</code>和<code>~/.bashrc</code>，打开终端shell的时候就会读取<code>~/.bashrc</code>和<code>/etc/bash.bashrc</code>两个文件。<br>    一般来说修改完配置文件后，需要注销重启才生效，不过可以使用source命令立即生效。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></p>
 <h3 id="PATH环境变量的设置方法"><a href="#PATH环境变量的设置方法" class="headerlink" title="PATH环境变量的设置方法"></a>PATH环境变量的设置方法</h3><ul>
 <li><p>直接终端输入<code>export</code>命令（临时）</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:your_add_path</span><br></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:your_add_path</span><br></pre></td></tr></table></figure>
 <p>  这种方法只适合设置一些临时变量，重新打开终端或另外打开终端就无效了，即只对当前终端shell有效。</p>
 </li>
 <li><p>修改用户的<code>~/.profile</code>或<code>~/.bashrc</code>（推荐）<br>打开文件在文件末尾添加<code>export PATH=&quot;$PATH:your_add_path&quot;</code>。然后注销重启或者使用source命令。这种方法只对当前用户生效。 </p>
@@ -147,6 +147,14 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2016/04/24/cpp-static/" title="作用域与static关键字">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  作用域与static关键字</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/04/23/hello-world/"  title="Hello World">
@@ -160,23 +168,25 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 
 	
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
   <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看环境变量的值"><span class="toc-number">1.</span> <span class="toc-text">查看环境变量的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ubuntu系统环境变量配置文件"><span class="toc-number">2.</span> <span class="toc-text">ubuntu系统环境变量配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PATH环境变量的设置方法"><span class="toc-number">3.</span> <span class="toc-text">PATH环境变量的设置方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考链接"><span class="toc-number">3.1.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
+		
+			<li><a href="/tags/c/" title="c++">c++<sup>1</sup></a></li>
 		
 			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
 		
@@ -185,7 +195,7 @@ ubuntu系统环境变量配置文件以下文件都可以更改环境变量
 
 
   <div class="rsspart">
-	<a href="null" target="_blank" title="rss">RSS</a>
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>

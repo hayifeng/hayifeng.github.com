@@ -1,0 +1,353 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>作用域与static关键字 | hayifeng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wulian">
+    
+    <meta name="description" content="我自己也常常会搞不清static的用法，再次总结一下，主要摘抄了《c和指针》这本书相关章节。
+作用域编译器可以确定4种不同作用域：
+
+文件作用域：在所有代码块之外声明的标示符都具有文件作用域，作用域在源文件结尾处结束。
+
+函数作用域：函数作用域也具有代码块作用域的属性。注：函数形参的作用域开始于形参">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="hayifeng" title="hayifeng"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="hayifeng">hayifeng</a></h1>
+				<h2 class="blog-motto">路的尽头仍然是路，只要你愿意走</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/24/cpp-static-md/" title="作用域与static关键字" itemprop="url">作用域与static关键字</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="wulian">wulian</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-04-24T13:37:18.267Z" itemprop="datePublished">2016-04-24</time>
+    更新日期:<time datetime="2016-04-24T13:37:18.267Z" itemprop="dateModified">2016-04-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域"><span class="toc-number">1.</span> <span class="toc-text">作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接属性："><span class="toc-number">2.</span> <span class="toc-text">链接属性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储类型："><span class="toc-number">3.</span> <span class="toc-text">存储类型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字static："><span class="toc-number">4.</span> <span class="toc-text">关键字static：</span></a></li></ol>
+		</div>
+		
+		<p>我自己也常常会搞不清static的用法，再次总结一下，主要摘抄了《c和指针》这本书相关章节。</p>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>编译器可以确定4种不同作用域：</p>
+<ul>
+<li><p>文件作用域：<br>在所有代码块之外声明的标示符都具有文件作用域，作用域在源文件结尾处结束。</p>
+</li>
+<li><p>函数作用域：<br>函数作用域也具有代码块作用域的属性。<br>注：函数形参的作用域开始于形参的声明处，位于函数外。如果在函数体内部声明了名字与形参相同的局部变量，将隐藏形参。</p>
+</li>
+<li><p>代码块作用域：<br>花括号中间的语句称为一个代码块。</p>
+</li>
+<li><p>原型作用域：<br>只适用于函数原型中声明的参数名，貌似并没有什么用，暂时不用理。函数声明中的参数名字不是必须，原型作用域只是为了保证参数名字不会和程序其他部分的名字冲突。</p>
+</li>
+</ul>
+<h3 id="链接属性："><a href="#链接属性：" class="headerlink" title="链接属性："></a>链接属性：</h3><p>标示符的链接属性决定如何处理在不同文件中出现的标示符。<br>分类：<code>external（外部）</code>、<code>internal（内部）</code>、<code>none（无）</code></p>
+<ul>
+<li><p>外部（external）：<br>不论声明多少次，位于几个源文件都表示同一个实体。</p>
+</li>
+<li><p>内部（internal）：<br>在同一文件内的所有声明都指同一实体，不同文件中多个声明分属不同的实体。</p>
+</li>
+<li><p>无（none）：<br>被当作单独的个体，标示符的多个声明会当作独立不同的实体，互不影响。<br>注：缺省情况下，在所有函数外部的标示符具有external链接属性。</p>
+</li>
+</ul>
+<h3 id="存储类型："><a href="#存储类型：" class="headerlink" title="存储类型："></a>存储类型：</h3><p>指存储变量值的内存类型，变量的存储类型决定变量何时创建、何时销毁以及它的值将保持多久。<br>存储变量的的地方：<code>普通内存</code>、<code>运行时堆栈</code>、<code>硬件寄存器</code><br>变量的存储类型取决于它的声明位置：</p>
+<ul>
+<li>具有文件作用域的变量存储于<code>静态内存</code>中，被称为<code>静态变量</code>。在程序运行前创建。</li>
+<li>具有代码块作用域的变量存储于<code>堆栈</code>中，称为<code>自动变量</code>或<code>局部变量</code>。程序执行时创建。</li>
+<li>关键字register可以用于<code>自动变量</code>的声明，提示应该存储于<code>硬件寄存器</code>，但是编译器不一定会理睬register关键字。基本上不会用register。</li>
+</ul>
+<p><strong>注</strong>：</p>
+<ol>
+<li>对于在代码块内部声明的变量，加上static关键字，可以使它的存储类型自动变为静态。</li>
+<li>修改变量的存储类型不能改变该变量的作用域！！！</li>
+<li>函数的形式参数不能声明为静态。 </li>
+</ol>
+<p><strong>静态变量和自动变量（也称局部变量）的重要区别：</strong></p>
+<ol>
+<li>静态变量如果没有初始值将会初始化为0</li>
+<li>自动变量因为在程序链接时无法判断自动变量的存储位置，所以，自动变量没有缺省的初始值，是不确定的。</li>
+<li>静态变量只是在程序运行前初始化一次，但是自动变量每次都会初始化。</li>
+</ol>
+<h3 id="关键字static："><a href="#关键字static：" class="headerlink" title="关键字static："></a>关键字static：</h3><p><strong>static在不同的环境下，有不同的意思。</strong></p>
+<ul>
+<li><p>在函数定义时，或用于代码块之外的变量声明时（即具有文件作用域属性），static关键字用于修改标示符的链接属性，将external改为internal。<br><em>注：标示符的存储类型和作用域不会改变。这种方式声明的变量或函数只能在声明它们的源文件中访问。</em></p>
+</li>
+<li><p>在代码块内部的变量声明时，用于修改变量的存储类型，从自动变量修改为静态变量。<br><em>注：变量的链接属性和作用域不受影响。<br>在函数内部的变量加上static关键字后，在程序整个执行过程中都存在，只会被初始化一次，函数再次调用时不会再被初始化。</em></p>
+</li>
+</ul>
+<p><strong>具有external链接属性的实体总是具有静态存储类型。</strong><br><strong>static只对缺省链接属性为external的声明才有改变链接属性的效果。</strong><br><strong>全局变量在程序开始执行前创建，并在程序整个执行过程中始终存在。</strong></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/c/">c++</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2016/04/24/cpp-static-md/" data-title="作用域与static关键字 | hayifeng" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/04/24/linux-zip/"  title="linux-zip">
+ <strong>NEXT:</strong><br/> 
+ <span>linux-zip
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域"><span class="toc-number">1.</span> <span class="toc-text">作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接属性："><span class="toc-number">2.</span> <span class="toc-text">链接属性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储类型："><span class="toc-number">3.</span> <span class="toc-text">存储类型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字static："><span class="toc-number">4.</span> <span class="toc-text">关键字static：</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/c/" title="c++">c++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> do waht you love <br/>
+			~  ~~ ~ ~~~ ~~and fuck the rest</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		
+		
+		<a href="https://github.com/hayifeng" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://yoursite.com" target="_blank" title="wulian">wulian</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
